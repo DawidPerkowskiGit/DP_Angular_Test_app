@@ -7,6 +7,7 @@ import {
   AfterViewChecked,
   QueryList,
   ViewChildren,
+  OnDestroy,
 } from '@angular/core';
 import { Room, RoomList } from './rooms';
 import { HeaderComponent } from '../header/header.component';
@@ -43,16 +44,17 @@ export class RoomsComponent
 
   //doCheck detects any changes to applciation
   constructor() {}
+
   ngAfterViewChecked(): void {
     console.log('AfterViewChecked');
   }
 
   ngAfterViewInit(): void {
-
+    this.headerComponent.title = 'Rooms View';
     // console.log(this.headerChildrenComponent.last.title = "Last Title");
     this.headerChildrenComponent.last.title = "Last Title";
-    this.headerChildrenComponent.first.title = "First Title";
-    this.headerComponent.title = 'Rooms View';
+    // this.headerChildrenComponent.get(0)?.title = "First Title"
+
   }
 
   ngDoCheck(): void {
