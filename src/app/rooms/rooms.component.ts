@@ -8,9 +8,11 @@ import {
   QueryList,
   ViewChildren,
   OnDestroy,
+  SkipSelf,
 } from '@angular/core';
 import { Room, RoomList } from './rooms';
 import { HeaderComponent } from '../header/header.component';
+import { RoomsService } from './services/rooms.service';
 
 @Component({
   selector: 'hinv-rooms',
@@ -43,7 +45,8 @@ export class RoomsComponent
   headerChildrenComponent!: QueryList<HeaderComponent>;
 
   //doCheck detects any changes to applciation
-  constructor() {}
+  //SkipSelf to skip this component from dependency search task
+  constructor(@SkipSelf() private roomsService: RoomsService) { }
 
   ngAfterViewChecked(): void {
     console.log('AfterViewChecked');
@@ -63,44 +66,7 @@ export class RoomsComponent
 
   //init is called first, then cosntructor, put variables initialziation in init
   ngOnInit(): void {
-    // console.log(this.headerComponent);
-
-    this.roomList = [
-      {
-        roomNumber: 101,
-        roomType: 'Deluxe Room',
-        amenities: 'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen',
-        price: 500,
-        photos:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0OxunpVLpH0iJ0TrgmW82zCCk2SqV0Vo6bQ&usqp=CAU.jpeg',
-        checkinTime: new Date('11-Nov-2022'),
-        checkoutTime: new Date('12-Nov-2022'),
-        rating: 3.7,
-      },
-      {
-        roomNumber: 102,
-        roomType: 'Deluxe Room',
-        amenities: 'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen',
-        price: 1000,
-        photos:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0OxunpVLpH0iJ0TrgmW82zCCk2SqV0Vo6bQ&usqp=CAU.jpeg',
-        checkinTime: new Date('13-Nov-2022'),
-        checkoutTime: new Date('14-Nov-2022'),
-        rating: 3.2,
-      },
-      {
-        roomNumber: 404,
-        roomType: 'VIP Room',
-        amenities:
-          'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen, Biliard Table',
-        price: 10000,
-        photos:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0OxunpVLpH0iJ0TrgmW82zCCk2SqV0Vo6bQ&usqp=CAU.jpeg',
-        checkinTime: new Date('9-Nov-2022'),
-        checkoutTime: new Date('10-Nov-2022'),
-        rating: 4.47789,
-      },
-    ];
+    this.roomList = this.roomsService.getRooms();
   }
 
   toggle() {
