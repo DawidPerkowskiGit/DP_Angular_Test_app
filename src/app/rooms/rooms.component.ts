@@ -14,6 +14,7 @@ import { Room, RoomList } from './rooms';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './services/rooms.service';
 import { Observable } from 'rxjs';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'hinv-rooms',
@@ -27,7 +28,7 @@ export class RoomsComponent
 
   numberOfRooms = 10;
 
-  hideRooms = false;
+  hideRooms = true;
 
   selectedRoom!: RoomList;
 
@@ -72,8 +73,34 @@ export class RoomsComponent
     console.log('doCheck is called');
   }
 
+  totalBytes = 0;
+
   //init is called first, then cosntructor, put variables initialziation in init
   ngOnInit(): void {
+
+    this.roomsService.getPhotos().subscribe((event) => {
+      switch(event.type) {
+        case HttpEventType.Sent: {
+          console.log('Request have been made!');
+          break;
+        }
+        case HttpEventType.ResponseHeader: {
+          console.log('Request success!');
+          break;
+        }
+        case HttpEventType.DownloadProgress: {
+          this.totalBytes+= event.loaded;
+          break;
+        }
+        case HttpEventType.Response: {
+          console.log(event.body);
+          
+        }
+
+      }
+      
+    })
+
     this.stream.subscribe({
       next: (value) => console.log(value),
       complete: () => console.log('Complete'),
