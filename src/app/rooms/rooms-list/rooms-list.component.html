@@ -1,37 +1,43 @@
-<h2>{{title}}</h2>
-    <table class="table">
-        <tr>
-            <th>Room number</th>
-            <th>Even/Odd</th>
-            <th>Room Number</th>
-            <th>Room Type</th>
-            <th>Room Amenities</th>
-            <th>Room Price</th>
-            <!-- <th>Room Photos</th> -->
-            <th>Checkin Time</th>
-            <th>Rating</th>
-            <th>
-                Select Room
-            </th>
-        </tr>
-        <tr 
-            [ngClass] ="e ? 'even' : 'odd'"
-            *ngFor="let room of rooms ; let e=even; let o=odd; let i = index">
-            <td>{{i | percent}}</td>
-            <td>{{e ? "Even" : "Odd "}}</td>
-            <td>{{room.roomNumber}}</td>
-            <td>{{room.roomType | uppercase}}</td>
-            <td>{{room.amenities | lowercase}}</td>
-            <td>{{room.price | currency : 'GBP'}}</td>
-            <td>{{room.checkinTime | date : 'dd/MM/yyyy'}}</td>
-            <td>{{room.rating | number : '1.1-2' : 'en-us'}}</td>
-            <td>
-                <button
+<h2>{{ title }}</h2>
+<table class="table">
+  <tr>
+    <th>Room number</th>
+    <th>Even/Odd</th>
+    <th>Room Number</th>
+    <th>Room Type</th>
+    <th>Room Amenities</th>
+    <th>Room Price</th>
+    <!-- <th>Room Photos</th> -->
+    <th>Checkin Time</th>
+    <th>Rating</th>
+    <th>Select Room</th>
+  </tr>
+  <tr
+    [ngClass]="e ? 'even' : 'odd'"
+    *ngFor="let room of rooms; let e = even; let o = odd; let i = index"
+  >
+    <td>{{ i | percent }}</td>
+    <td>{{ e ? "Even" : "Odd " }}</td>
+    <td>{{ room.roomNumber }}</td>
+    <td>{{ room.roomType | uppercase }}</td>
+    <td>{{ room.amenities | lowercase }}</td>
+    <td>{{ room.price | currency : "GBP" }}</td>
+    <td>{{ room.checkinTime | date : "dd/MM/yyyy" }}</td>
+    <td>{{ room.rating | number : "1.1-2" : "en-us" }}</td>
+    <td>
+      <!-- <button
                     class="btn btn-primary"
                     (click)="selectRoom(room)"
                 >
                 Select
-                </button>
-            </td>
-        </tr>
-    </table>
+                </button> -->
+      <!-- Dynamic router link adress have to be in [] -->
+      <button
+        class="btn btn-primary"
+        [routerLink]="['/rooms', room.roomNumber]"
+      >
+        Book Room
+      </button>
+    </td>
+  </tr>
+</table>
