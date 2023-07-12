@@ -13,7 +13,7 @@ import {
 import { Room, RoomList } from './rooms';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './services/rooms.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, Subscription, catchError, map, of } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -49,6 +49,28 @@ export class RoomsComponent
     // observer.error('error')
   });
 
+  
+  totalBytes = 0;
+
+  subscription ! : Subscription;
+
+  error$ = new Subject<string>();
+
+  getError$ = this.error$.asObservable();
+
+  rooms$ = this.roomsService.getRooms$.pipe(
+    catchError((err) => {
+      // console.log(err);
+      this.error$.next(err.message);
+      return of([])
+      
+    })
+  )
+
+  roomsCount$ = this.roomsService.getRooms$.pipe(
+    map((rooms) => rooms.length)
+  )
+
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
   @ViewChildren(HeaderComponent)
@@ -72,8 +94,6 @@ export class RoomsComponent
   ngDoCheck(): void {
     console.log('doCheck is called');
   }
-
-  totalBytes = 0;
 
   //init is called first, then cosntructor, put variables initialziation in init
   ngOnInit(): void {
@@ -106,8 +126,8 @@ export class RoomsComponent
       complete: () => console.log('Complete'),
       error: () => console.log('error'),
     });
-    this.stream.subscribe((data) => console.log(data));
-    this.roomsService.getRooms().subscribe((rooms) => {
+    this.subscription = this.stream.subscribe((data) => console.log(data));
+    this.roomsService.getRooms$.subscribe((rooms) => {
       this.roomList = rooms;
     })
     // console.log(this.roomsService.getRooms());
@@ -160,9 +180,9 @@ export class RoomsComponent
 
     // this.roomList.push(room);
     // this.roomList = [...this.roomList, room];
-    this.roomsService.editRoom(room).subscribe((data) => {
-      this.roomList = data;
-    });
+    // this.roomsService.editRoom(room).subscribe((data) => {
+    //   this.roomList = data;
+    // });
   }
 
   deleteRoom() {
@@ -172,5 +192,12 @@ export class RoomsComponent
     this.roomsService.deleteRoom(id).subscribe((data) => {
       this.roomList = data;
     });
+  }
+
+  //either use this to unsubscribr
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe;
+    }
   }
 }

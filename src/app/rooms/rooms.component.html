@@ -1,7 +1,8 @@
 <!-- <h1>Welcome to {{hotelName}}</h1> -->
 <hinv-header></hinv-header>
-<hinv-header></hinv-header>
-<hinv-header></hinv-header>
+<!-- <hinv-header></hinv-header>
+<hinv-header></hinv-header> -->
+<!-- {{rooms$ | async | json}} -->
 <div [hidden]="hideRooms">
     Number of rooms :
     <div 
@@ -15,8 +16,8 @@
 <!-- {{roomList | json}} -->
 
 
-<div *ngIf="rooms.availableRooms > 0">
-    <hinv-rooms-list [rooms]="roomList"
+<div *ngIf="rooms$ | async as rooms">
+    <hinv-rooms-list [rooms]="rooms"
                     [title]="title"
     (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
     
@@ -29,6 +30,10 @@
 <div>
     <button (click)="addRoom()">Add Room</button>
 </div>
+<h1>
+    {{getError$ | async}}
+    Number of rooms {{roomsCount$ | async}}
+</h1>
 
 <div>
     <button (click)="editRoom()">Edit</button>
