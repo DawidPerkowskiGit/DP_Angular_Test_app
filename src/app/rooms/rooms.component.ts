@@ -15,6 +15,7 @@ import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './services/rooms.service';
 import { Observable, Subject, Subscription, catchError, map, of } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'hinv-rooms',
@@ -78,7 +79,8 @@ export class RoomsComponent
 
   //doCheck detects any changes to applciation
   //SkipSelf to skip this component from dependency search task
-  constructor(@SkipSelf() private roomsService: RoomsService) {}
+  constructor(@SkipSelf() private roomsService: RoomsService,
+  private configService: ConfigService) {}
 
   ngAfterViewChecked(): void {
     console.log('AfterViewChecked');
