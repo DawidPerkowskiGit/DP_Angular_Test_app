@@ -19,7 +19,7 @@ export class BookingComponent implements OnInit {
     // roomId: [''],
 
     this.bookingForm = this.fb.group({
-      roomId: new FormControl(''),
+      roomId: new FormControl({value: '2', disabled: true}),
       guestEmail: [''],
       checkinDate: [''],
       checkoutDate: [''],
@@ -27,7 +27,7 @@ export class BookingComponent implements OnInit {
       bookingAmount: [''],
       bookingDate: [''],
       mobileNumber: [''],
-      geustName: [''],
+      guestName: [''],
       guestAdress: [''],
       guestCity: [''],
       guestState: [''],
@@ -36,6 +36,10 @@ export class BookingComponent implements OnInit {
       guestCount: [''],
       guestList: [''],
     });
+  }
+  addBooking() {
+    console.log(this.bookingForm.getRawValue());
+    
   }
 }
 
