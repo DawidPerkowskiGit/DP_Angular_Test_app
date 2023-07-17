@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../services/config.service';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'hinv-booking',
@@ -10,16 +10,18 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 export class BookingComponent implements OnInit {
   bookingForm!: FormGroup;
 
+  get guests() {
+    return this.bookingForm.get('guests') as FormArray;
+  }
   constructor(private configService: ConfigService, private fb: FormBuilder) {}
   ngOnInit(): void {
-
     //syntax:
     // roomId: new FormControl(''),
     // or
     // roomId: [''],
 
     this.bookingForm = this.fb.group({
-      roomId: new FormControl({value: '2', disabled: true}),
+      roomId: new FormControl({ value: '2', disabled: true }),
       guestEmail: [''],
       checkinDate: [''],
       checkoutDate: [''],
@@ -36,12 +38,24 @@ export class BookingComponent implements OnInit {
         country: [''],
         zipCode: [''],
       }),
-      guestCount: [''],
-      guestList: [''],
+      guests: this.fb.array([
+        this.fb.group({
+          guestName: [''],
+          guestAge: new FormControl(''),
+        }),
+      ]),
     });
   }
   addBooking() {
     console.log(this.bookingForm.getRawValue());
+  }
+  addGuest() {
+    this.guests.push(
+      this.fb.group({
+        guestName: ['Woodland Joseph'],
+        guestAge: new FormControl(''),
+      }),
+    )
     
   }
 }

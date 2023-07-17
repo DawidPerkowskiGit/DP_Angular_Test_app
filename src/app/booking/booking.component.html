@@ -149,58 +149,90 @@ mobileNumber: [''],
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Address Line 2</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="addressLine2"
-              placeholder="Address Line 2"
-            />
-          </mat-form-field>
+          <mat-label>Address Line 2</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="addressLine2"
+            placeholder="Address Line 2"
+          />
+        </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>City</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="city"
-              placeholder="City"
-            />
-          </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>City</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="city"
+            placeholder="City"
+          />
+        </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>State</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="state"
-              placeholder="State"
-            />
-          </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>State</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="state"
+            placeholder="State"
+          />
+        </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>County</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="country"
-              placeholder="Conutry"
-            />
-          </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>County</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="country"
+            placeholder="Conutry"
+          />
+        </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Zip Code</mat-label>
-            <input
-              type="text"
-              matInput
-              formControlName="zipCode"
-              placeholder="Zip Code"
-            />
-          </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Zip Code</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="zipCode"
+            placeholder="Zip Code"
+          />
+        </mat-form-field>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+  <div formArrayName="guests">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Guests </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let guest of guests.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                formControlName="guestName"
+                placeholder="Guest Name"
+              />
+            </mat-form-field>
 
+            <mat-form-field>
+              <input
+                type="number"
+                matInput
+                formControlName="guestAge"
+                placeholder="Age"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <button mat-raised-button color="primary" type="button" (click)="addGuest()">
+    Add Guest
+  </button>
   <div>
     <button mat-raised-button color="primary">Submit</button>
   </div>
