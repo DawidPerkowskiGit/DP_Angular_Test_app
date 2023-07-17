@@ -91,27 +91,117 @@ mobileNumber: [''],
 
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Choose a check-in date</mat-label>
-    <input matInput [matDatepicker]="checkinpicker" formControlName="checkinDate"/>
-    <mat-datepicker-toggle matIconSuffix [for]="checkinpicker"></mat-datepicker-toggle>
+    <input
+      matInput
+      [matDatepicker]="checkinpicker"
+      formControlName="checkinDate"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="checkinpicker"
+    ></mat-datepicker-toggle>
     <mat-datepicker #checkinpicker></mat-datepicker>
   </mat-form-field>
 
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Choose a check-out date</mat-label>
-    <input matInput [matDatepicker]="checkoutpicker" formControlName="checkoutDate"/>
-    <mat-datepicker-toggle matIconSuffix [for]="checkoutpicker"></mat-datepicker-toggle>
+    <input
+      matInput
+      [matDatepicker]="checkoutpicker"
+      formControlName="checkoutDate"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="checkoutpicker"
+    ></mat-datepicker-toggle>
     <mat-datepicker #checkoutpicker></mat-datepicker>
   </mat-form-field>
 
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Choose a booking date</mat-label>
-    <input matInput [matDatepicker]="bookingpicker" formControlName="bookingDate"/>
-    <mat-datepicker-toggle matIconSuffix [for]="bookingpicker"></mat-datepicker-toggle>
+    <input
+      matInput
+      [matDatepicker]="bookingpicker"
+      formControlName="bookingDate"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="bookingpicker"
+    ></mat-datepicker-toggle>
     <mat-datepicker #bookingpicker></mat-datepicker>
   </mat-form-field>
+
+  <div formGroupName="address">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Address </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Address Line 1</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="addressLine1"
+            placeholder="Address Line 1"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Address Line 2</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="addressLine2"
+              placeholder="Address Line 2"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>City</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="city"
+              placeholder="City"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>State</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="state"
+              placeholder="State"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>County</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="country"
+              placeholder="Conutry"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Zip Code</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="zipCode"
+              placeholder="Zip Code"
+            />
+          </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 
   <div>
     <button mat-raised-button color="primary">Submit</button>
   </div>
-
 </form>
