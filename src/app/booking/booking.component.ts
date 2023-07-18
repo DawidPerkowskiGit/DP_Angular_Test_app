@@ -7,6 +7,8 @@ import {
   FormArray,
   Validators,
 } from '@angular/forms';
+import { BookingService } from './booking.service';
+import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 
 @Component({
   selector: 'hinv-booking',
@@ -21,50 +23,73 @@ export class BookingComponent implements OnInit {
   get guests() {
     return this.bookingForm.get('guests') as FormArray;
   }
-  constructor(private configService: ConfigService, private fb: FormBuilder) {}
+  constructor(
+    private configService: ConfigService,
+    private fb: FormBuilder,
+    private bookingService: BookingService
+  ) {}
   ngOnInit(): void {
     //syntax:
     // roomId: new FormControl(''),
     // or
     // roomId: [''],
 
-    this.bookingForm = this.fb.group({
-      roomId: new FormControl(
-        { value: '2', disabled: true },
-        { validators: [Validators.required] }
-      ),
-      guestEmail: [
-        '',
-        {
-          updateOn: 'blur',
-          validators: [Validators.required, Validators.email],
-        },
-      ],
-      checkinDate: [''],
-      checkoutDate: [''],
-      bookingStatus: [''],
-      bookingAmount: [''],
-      bookingDate: [''],
-      //blur update on changing control
-      mobileNumber: ['', { updateOn: 'blur' }],
-      guestName: ['', [Validators.required, Validators.minLength(5)]],
-      address: this.fb.group({
-        addressLine1: ['', [Validators.required]],
-        addressLine2: [''],
-        city: ['', [Validators.required]],
-        state: ['', [Validators.required]],
-        country: [''],
-        zipCode: [''],
-      }),
-      guests: this.fb.array([this.addGuestcontrol()], [Validators.required]),
-      tnc: new FormControl(false, { validators: [Validators.required] }),
-    }, {updateOn:'blur'});
+    this.bookingForm = this.fb.group(
+      {
+        roomId: new FormControl(
+          { value: '2', disabled: true },
+          { validators: [Validators.required] }
+        ),
+        guestEmail: [
+          '',
+          {
+            updateOn: 'blur',
+            validators: [Validators.required, Validators.email],
+          },
+        ],
+        checkinDate: [''],
+        checkoutDate: [''],
+        bookingStatus: [''],
+        bookingAmount: [''],
+        bookingDate: [''],
+        //blur update on changing control
+        mobileNumber: ['', { updateOn: 'blur' }],
+        guestName: ['', [Validators.required, Validators.minLength(5)]],
+        address: this.fb.group({
+          addressLine1: ['', [Validators.required]],
+          addressLine2: [''],
+          city: ['', [Validators.required]],
+          state: ['', [Validators.required]],
+          country: [''],
+          zipCode: [''],
+        }),
+        guests: this.fb.array([this.addGuestcontrol()], [Validators.required]),
+        tnc: new FormControl(false, { validators: [Validators.required] }),
+      },
+      // { updateOn: 'change' }
+    );
 
-    this.getBookingData();
+    // this.getBookingData();
+
+    // this.bookingForm.valueChanges.subscribe((data) => {
+    //   this.bookingService.bookRoom(data).subscribe((data) => {})
+    // })
+
+    //mergeMap tries to subscribe (in form of post requests) to the data as 
+    //soon as the new data is provided (does not care about sequence)
+    //swithMap will cancel any existing request if it recieves data
+    //(cancels post requests)
+    //exhaustMap cares about sequence, waits for previous request completion
+    //it wont subscribe to newest data
+    this.bookingForm.valueChanges
+      .pipe(exhaustMap((data) => this.bookingService.bookRoom(data)))
+      .subscribe((data) => console.log(data));
   }
 
   addBooking() {
     console.log(this.bookingForm.getRawValue());
+    // this.bookingService.bookRoom(this.bookingForm.getRawValue()).subscribe((data) => { console.log(data);
+    //  })
     this.bookingForm.reset({
       roomId: '2',
       guestEmail: '',
