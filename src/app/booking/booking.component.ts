@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../services/config.service';
-import { FormGroup, FormBuilder, FormControl, FormArray, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  FormArray,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'hinv-booking',
@@ -23,14 +29,24 @@ export class BookingComponent implements OnInit {
     // roomId: [''],
 
     this.bookingForm = this.fb.group({
-      roomId: new FormControl({ value: '2', disabled: true }, { validators: [Validators.required]}), 
-      guestEmail: ['', [Validators.required, Validators.email]], 
+      roomId: new FormControl(
+        { value: '2', disabled: true },
+        { validators: [Validators.required] }
+      ),
+      guestEmail: [
+        '',
+        {
+          updateOn: 'blur',
+          validators: [Validators.required, Validators.email],
+        },
+      ],
       checkinDate: [''],
       checkoutDate: [''],
       bookingStatus: [''],
       bookingAmount: [''],
       bookingDate: [''],
-      mobileNumber: [''],
+      //blur update on changing control
+      mobileNumber: ['', { updateOn: 'blur' }],
       guestName: ['', [Validators.required, Validators.minLength(5)]],
       address: this.fb.group({
         addressLine1: ['', [Validators.required]],
@@ -40,20 +56,18 @@ export class BookingComponent implements OnInit {
         country: [''],
         zipCode: [''],
       }),
-      guests: this.fb.array([
-        this.addGuestcontrol()
-      ], [Validators.required]),
-      tnc: new FormControl(false, { validators: [Validators.required]}),
-    });
-    
-  this.getBookingData();
+      guests: this.fb.array([this.addGuestcontrol()], [Validators.required]),
+      tnc: new FormControl(false, { validators: [Validators.required] }),
+    }, {updateOn:'blur'});
+
+    this.getBookingData();
   }
 
   addBooking() {
     console.log(this.bookingForm.getRawValue());
     this.bookingForm.reset({
-      roomId: '2', 
-      guestEmail: '', 
+      roomId: '2',
+      guestEmail: '',
       checkinDate: '',
       checkoutDate: '',
       bookingStatus: '',
@@ -68,24 +82,25 @@ export class BookingComponent implements OnInit {
         state: '',
         country: '',
         zipCode: '',
-    }),
+      }),
       tnc: false,
-  });
+    });
   }
 
   addGuest() {
-    this.guests.push(
-      this.addGuestcontrol()
-    )
+    this.guests.push(this.addGuestcontrol());
   }
 
   addGuestcontrol() {
-    return this.fb.group({guestName: ['',{ validators: [Validators.required]}], guestAge: new FormControl('')})
+    return this.fb.group({
+      guestName: ['', { validators: [Validators.required] }],
+      guestAge: new FormControl(''),
+    });
   }
 
   addPassport() {
     this.bookingForm.addControl('passport', new FormControl(''));
-    this.passportFromActive  = true;
+    this.passportFromActive = true;
   }
 
   deletePassport() {
@@ -96,13 +111,15 @@ export class BookingComponent implements OnInit {
   }
 
   removeGuest(i: number) {
-this.guests.removeAt(i);
+    this.guests.removeAt(i);
   }
 
+  //setValue > pass all the values required
+  //patch value > you are allowed to skip some controls
   getBookingData() {
     this.bookingForm.setValue({
-      roomId: '2', 
-      guestEmail: 'test@gmail.com', 
+      roomId: '2',
+      guestEmail: 'test@gmail.com',
       checkinDate: new Date('10-Feb-2020'),
       checkoutDate: '',
       bookingStatus: '',
@@ -117,7 +134,7 @@ this.guests.removeAt(i);
         state: '',
         country: '',
         zipCode: '',
-    }),
+      }),
       guests: [],
       tnc: false,
     });
