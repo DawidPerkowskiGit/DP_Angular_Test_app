@@ -1,7 +1,7 @@
-<p>booking works!</p>
+<!-- <p>booking works!</p>
 {{ bookingForm.value | json }}
 {{ bookingForm.pristine | json }}
-{{ bookingForm.dirty | json }}
+{{ bookingForm.dirty | json }} -->
 
 <!-- roomId: new FormControl(''),
 guestName: [''],
@@ -21,6 +21,7 @@ bookingDate: [''],
 mobileNumber: [''],
 
 -->
+{{bookingForm.errors | json}}
 <div [hidden]="passportFromActive">
   <button
     mat-raised-button
@@ -67,7 +68,7 @@ mobileNumber: [''],
       Email is <strong>required</strong>
     </mat-error> -->
   </mat-form-field>
-
+  {{bookingForm.get('guestName')?.errors | json}}
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Guest Name</mat-label>
     <input
@@ -76,7 +77,6 @@ mobileNumber: [''],
       formControlName="guestName"
       placeholder="Name"
     />
-    <!-- {{bookingForm.get('guestName')?.errors | json}} -->
     <mat-error *ngIf="bookingForm.get('guestName')?.hasError('minlength')">
       Guest name should be at least 5 characters
     </mat-error>
@@ -136,6 +136,11 @@ mobileNumber: [''],
     ></mat-datepicker-toggle>
     <mat-datepicker #checkoutpicker></mat-datepicker>
   </mat-form-field>
+
+  <mat-error *ngIf="bookingForm.get('checkoutDate')?.hasError('invalidDate')">
+    {{bookingForm.get('checkoutDate')?.errors | json}}
+  </mat-error>
+
 
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Choose a booking date</mat-label>

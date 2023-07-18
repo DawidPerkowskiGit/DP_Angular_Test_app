@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { BookingService } from './booking.service';
 import { exhaustMap, mergeMap, switchMap } from 'rxjs';
+import { CustomValidator } from './validators/custom_validator';
 
 @Component({
   selector: 'hinv-booking',
@@ -54,7 +55,7 @@ export class BookingComponent implements OnInit {
         bookingDate: [''],
         //blur update on changing control
         mobileNumber: ['', { updateOn: 'blur' }],
-        guestName: ['', [Validators.required, Validators.minLength(5)]],
+        guestName: ['', [Validators.required, Validators.minLength(5), CustomValidator.Validatename, CustomValidator.ValidateSpecialChar('*')]],
         address: this.fb.group({
           addressLine1: ['', [Validators.required]],
           addressLine2: [''],
@@ -65,7 +66,7 @@ export class BookingComponent implements OnInit {
         }),
         guests: this.fb.array([this.addGuestcontrol()], [Validators.required]),
         tnc: new FormControl(false, { validators: [Validators.required] }),
-      },
+      }, {updateOn: 'blur', validators: [CustomValidator.validateDate]}
       // { updateOn: 'change' }
     );
 
@@ -77,7 +78,7 @@ export class BookingComponent implements OnInit {
 
     //mergeMap tries to subscribe (in form of post requests) to the data as 
     //soon as the new data is provided (does not care about sequence)
-    //swithMap will cancel any existing request if it recieves data
+    //switchMap will cancel any existing request if it recieves data
     //(cancels post requests)
     //exhaustMap cares about sequence, waits for previous request completion
     //it wont subscribe to newest data
