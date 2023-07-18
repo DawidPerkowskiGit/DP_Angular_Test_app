@@ -14,7 +14,7 @@
   </tr>
   <tr
     [ngClass]="e ? 'even' : 'odd'"
-    *ngFor="let room of rooms; let e = even; let o = odd; let i = index"
+    *ngFor="let room of rooms | filterPipe : price; let e = even; let o = odd; let i = index"
   >
     <td>{{ i | percent }}</td>
     <td>{{ e ? "Even" : "Odd " }}</td>
@@ -34,7 +34,7 @@
       <!-- Dynamic router link adress have to be in [] -->
       <button
         class="btn btn-primary"
-        [routerLink]="['/rooms', room.roomNumber]"
+        [routerLink]="['/booking', room.roomNumber]"
       >
         Book Room
       </button>

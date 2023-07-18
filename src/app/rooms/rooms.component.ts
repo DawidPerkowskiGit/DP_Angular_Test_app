@@ -16,6 +16,7 @@ import { RoomsService } from './services/rooms.service';
 import { Observable, Subject, Subscription, catchError, map, of } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import { ConfigService } from '../services/config.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'hinv-rooms',
@@ -67,6 +68,8 @@ export class RoomsComponent
       
     })
   )
+
+  priceFilter = new FormControl(0);
 
   roomsCount$ = this.roomsService.getRooms$.pipe(
     map((rooms) => rooms.length)
