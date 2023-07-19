@@ -1,7 +1,8 @@
-<!-- <p>booking works!</p>
+<!-- <p>booking works!</p> -->
 {{ bookingForm.value | json }}
-{{ bookingForm.pristine | json }}
-{{ bookingForm.dirty | json }} -->
+ {{ bookingForm.pristine | json }}
+<!-- {{ bookingForm.dirty | json }} --> 
+{{bookingForm.valid}}
 
 <!-- roomId: new FormControl(''),
 guestName: [''],
@@ -68,6 +69,17 @@ mobileNumber: [''],
       Email is <strong>required</strong>
     </mat-error> -->
   </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Room id</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="roomId"
+      placeholder="Room Id"
+    />
+  </mat-form-field>
+
   {{bookingForm.get('guestName')?.errors | json}}
   <mat-form-field class="example-full-width" appearance="fill">
     <mat-label>Guest Name</mat-label>

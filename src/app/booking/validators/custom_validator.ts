@@ -37,9 +37,14 @@ export class CustomValidator {
                 invalidDate: true,
             };
         }
-        control.get('checkoutDate')?.setErrors({
-            invalidDate: false,
-        })
+        // control.get('checkoutDate')?.setErrors({
+        //     invalidDate: null,
+        // })
+        // if (control.hasError('invalidDate')) {
+        //     delete control.errors!['invalidDate'];
+        // }
+
+        // control.updateValueAndValidity();
         return null;
     }
 }

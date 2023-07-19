@@ -13,6 +13,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 import { HttpClientModule } from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatCheckboxModule,
     HttpClientModule,
+    MatSnackBarModule,
   ]
 })
 export class BookingModule { }

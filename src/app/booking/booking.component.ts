@@ -10,6 +10,8 @@ import {
 import { BookingService } from './booking.service';
 import { exhaustMap, mergeMap, switchMap } from 'rxjs';
 import { CustomValidator } from './validators/custom_validator';
+import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'hinv-booking',
@@ -27,18 +29,21 @@ export class BookingComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private fb: FormBuilder,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private router: ActivatedRoute,
+    private snackbar: MatSnackBar,
   ) {}
   ngOnInit(): void {
     //syntax:
     // roomId: new FormControl(''),
     // or
     // roomId: [''],
+    const roomId = this.router.snapshot.paramMap.get('roomId');
 
     this.bookingForm = this.fb.group(
       {
         roomId: new FormControl(
-          { value: '2', disabled: true },
+          { value: roomId, disabled: true },
           { validators: [Validators.required] }
         ),
         guestEmail: [
@@ -91,6 +96,10 @@ export class BookingComponent implements OnInit {
     console.log(this.bookingForm.getRawValue());
     // this.bookingService.bookRoom(this.bookingForm.getRawValue()).subscribe((data) => { console.log(data);
     //  })
+    if (this.bookingForm.valid) {
+      this.snackbar.open('You successfully booked a room!');
+    }
+
     this.bookingForm.reset({
       roomId: '2',
       guestEmail: '',
@@ -111,6 +120,8 @@ export class BookingComponent implements OnInit {
       }),
       tnc: false,
     });
+
+
   }
 
   addGuest() {
